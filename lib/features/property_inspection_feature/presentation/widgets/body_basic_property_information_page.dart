@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:property_inspector/core/app_theme.dart';
 import 'package:property_inspector/features/property_inspection_feature/presentation/widgets/custom_text_form_field.dart';
 import 'package:property_inspector/features/property_inspection_feature/presentation/widgets/custom_title.dart';
+import 'package:property_inspector/features/property_inspection_feature/presentation/widgets/custom_widget_for_fill_location_info.dart';
 import 'package:property_inspector/features/property_inspection_feature/presentation/widgets/row_rent_or_buy.dart';
 import 'package:property_inspector/features/property_inspection_feature/presentation/widgets/secondary_button.dart';
 
@@ -28,6 +29,8 @@ class BodyBasicPropertyInformationPage extends StatelessWidget {
               padding: const EdgeInsets.all(15),
               child: Divider(height: 20, thickness: 0.5, color: grayColor),
             ),
+
+            CustomWidgetForFillLocationInformation(),
 
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 24),

@@ -3,14 +3,22 @@ import 'package:property_inspector/core/app_theme.dart';
 
 const BorderRadius kBorderRadius = BorderRadius.all(Radius.circular(24));
 
+// ignore: must_be_immutable
 class CustomTextFormField extends StatefulWidget {
-  const CustomTextFormField({
+  CustomTextFormField({
     super.key,
     required this.hintText,
     required this.maxLines,
+    this.validator,
+    this.onChanged,
+    this.controller,
   });
   final String hintText;
+  void Function(String)? onChanged;
   final int maxLines;
+  TextEditingController? controller;
+
+  String? Function(String?)? validator;
   @override
   State<CustomTextFormField> createState() => _CustomTextFormFieldState();
 }
@@ -40,19 +48,12 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           ],
         ),
         child: TextFormField(
+          controller: widget.controller,
           // minLines: 3,
           maxLines: widget.maxLines,
           obscureText: false,
-          validator: (data) {
-            RegExp xRegex = RegExp(r'^[A-Za-z][A-Za-z ]{10,}$');
-            if (data!.isEmpty || !xRegex.hasMatch(data.trim())) {
-              return 'number must be 10 digits';
-            }
-            return null;
-          },
-          onChanged: (data) {
-            value = data.trim();
-          },
+          validator: widget.validator,
+          onChanged: widget.onChanged,
           textAlign: TextAlign.start,
           textAlignVertical: TextAlignVertical.center,
           decoration: InputDecoration(
