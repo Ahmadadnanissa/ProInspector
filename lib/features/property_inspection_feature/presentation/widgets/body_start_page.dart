@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:property_inspector/core/app_theme.dart';
+import 'package:property_inspector/core/widgets/navigation_route.dart';
+import 'package:property_inspector/features/property_inspection_feature/presentation/pages/basic_property_information_page.dart';
 import 'package:property_inspector/features/property_inspection_feature/presentation/widgets/custom_title.dart';
+import 'package:property_inspector/features/property_inspection_feature/presentation/widgets/custom_widget_for_fill_information.dart';
 import 'package:property_inspector/features/property_inspection_feature/presentation/widgets/list_of_property_type.dart';
+import 'package:property_inspector/features/property_inspection_feature/presentation/widgets/secondary_button.dart';
 
 class BodyStartPage extends StatefulWidget {
   const BodyStartPage({super.key});
@@ -29,8 +33,22 @@ class _BodyStartPageState extends State<BodyStartPage> {
             ListOfPropertyType(),
 
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(15),
               child: Divider(height: 20, thickness: 0.5, color: grayColor),
+            ),
+            CustomWidgetForFillInformation(),
+            Padding(
+              padding: const EdgeInsets.all(24),
+              child: SecondaryButton(
+                name: 'Continue',
+                pushing: () {
+                  Navigator.push(
+                    context,
+                    SlideRight(page: BasicPropertyInformationPage()),
+                  );
+                },
+                isBack: false,
+              ),
             ),
           ],
         ),

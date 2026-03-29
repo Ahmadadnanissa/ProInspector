@@ -3,6 +3,7 @@ import 'package:property_inspector/features/home_feature/presentation/pages/deta
 import 'package:property_inspector/features/home_feature/presentation/pages/home_page.dart';
 import 'package:property_inspector/features/notification_and_live_chat_feature/presentation/pages/live_chat_page.dart';
 import 'package:property_inspector/features/notification_and_live_chat_feature/presentation/pages/notification_page.dart';
+import 'package:property_inspector/features/property_inspection_feature/presentation/pages/basic_property_information_page.dart';
 import 'package:property_inspector/features/property_inspection_feature/presentation/pages/start_page.dart';
 import 'package:property_inspector/splash__page.dart';
 
@@ -24,6 +25,8 @@ class MyApp extends StatelessWidget {
         NotificationPage.id: (context) => NotificationPage(),
         LiveChatPage.id: (context) => LiveChatPage(),
         StartPage.id: (context) => StartPage(),
+        BasicPropertyInformationPage.id: (context) =>
+            BasicPropertyInformationPage(),
       },
       debugShowCheckedModeBanner: false,
       initialRoute: HomePage.id,
