@@ -41,7 +41,7 @@ class BodyBasicPropertyInformationPage2 extends StatelessWidget {
               child: Divider(height: 20, thickness: 0.5, color: grayColor),
             ),
 
-            CustomWidgetForAddNearBy(),
+            CustomWidetForAddOutDoorPlaces(),
 
             Padding(
               padding: EdgeInsets.symmetric(vertical: width * 0.05),

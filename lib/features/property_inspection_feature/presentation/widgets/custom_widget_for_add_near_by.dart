@@ -3,15 +3,16 @@ import 'package:property_inspector/features/property_inspection_feature/presenta
 import 'package:property_inspector/features/property_inspection_feature/presentation/widgets/custom_new_button.dart';
 import 'package:property_inspector/features/property_inspection_feature/presentation/widgets/custom_widget_for_fill_information.dart';
 
-class CustomWidgetForAddNearBy extends StatefulWidget {
-  const CustomWidgetForAddNearBy({super.key});
+class CustomWidetForAddOutDoorPlaces extends StatefulWidget {
+  const CustomWidetForAddOutDoorPlaces({super.key});
 
   @override
-  State<CustomWidgetForAddNearBy> createState() =>
-      _CustomWidgetForAddNearByState();
+  State<CustomWidetForAddOutDoorPlaces> createState() =>
+      _CustomWidetForAddOutDoorPlacesState();
 }
 
-class _CustomWidgetForAddNearByState extends State<CustomWidgetForAddNearBy> {
+class _CustomWidetForAddOutDoorPlacesState
+    extends State<CustomWidetForAddOutDoorPlaces> {
   final TextEditingController controller1 = TextEditingController();
   final TextEditingController controller2 = TextEditingController();
   List<String> outDoors = [];
@@ -46,7 +47,7 @@ class _CustomWidgetForAddNearByState extends State<CustomWidgetForAddNearBy> {
             return null;
           },
           validator2: (data) {
-            RegExp xRegex = RegExp(r'^[A-Za-z][A-Za-z ]$');
+            RegExp xRegex = RegExp(r'^[A-Za-z ]+$');
             if (data!.isEmpty || !xRegex.hasMatch(data.trim())) {
               return 'field required';
             }
