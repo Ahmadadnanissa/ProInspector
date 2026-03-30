@@ -36,7 +36,11 @@ class _BodyStartPageState extends State<BodyStartPage> {
               padding: const EdgeInsets.all(15),
               child: Divider(height: 20, thickness: 0.5, color: grayColor),
             ),
-            CustomWidgetForFillInformation(),
+            CustomWidgetForFillInformation(
+              title: 'Description',
+              hintText1: 'Short Description(name)',
+              description: 'Full Description',
+            ),
             Padding(
               padding: const EdgeInsets.all(24),
               child: SecondaryButton(

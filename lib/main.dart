@@ -5,6 +5,8 @@ import 'package:property_inspector/features/notification_and_live_chat_feature/p
 import 'package:property_inspector/features/notification_and_live_chat_feature/presentation/pages/notification_page.dart';
 import 'package:property_inspector/features/property_inspection_feature/presentation/pages/basic_property_information_page.dart';
 import 'package:property_inspector/features/property_inspection_feature/presentation/pages/basic_property_information_page2.dart';
+import 'package:property_inspector/features/property_inspection_feature/presentation/pages/final_inspection_page.dart';
+import 'package:property_inspector/features/property_inspection_feature/presentation/pages/room_setup_page.dart';
 import 'package:property_inspector/features/property_inspection_feature/presentation/pages/start_page.dart';
 import 'package:property_inspector/splash__page.dart';
 
@@ -26,6 +28,8 @@ class MyApp extends StatelessWidget {
         NotificationPage.id: (context) => NotificationPage(),
         LiveChatPage.id: (context) => LiveChatPage(),
         StartPage.id: (context) => StartPage(),
+        RoomSetupPage.id: (context) => RoomSetupPage(),
+        FinalInspectionPage.id: (context) => FinalInspectionPage(),
         BasicPropertyInformationPage.id: (context) =>
             BasicPropertyInformationPage(),
         BasicPropertyInformationPage2.id: (context) =>

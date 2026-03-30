@@ -4,8 +4,29 @@ import 'package:property_inspector/core/widgets/custom_font.dart';
 import 'package:property_inspector/features/property_inspection_feature/presentation/widgets/custom_text_form_field.dart';
 import 'package:property_inspector/features/property_inspection_feature/presentation/widgets/custom_widget_for_add_image.dart';
 
+// ignore: must_be_immutable
 class CustomWidgetForFillInformation extends StatelessWidget {
-  const CustomWidgetForFillInformation({super.key});
+  CustomWidgetForFillInformation({
+    super.key,
+    required this.title,
+    required this.description,
+    required this.hintText1,
+    this.validator1,
+    this.validator2,
+    this.controller1,
+    this.controller2,
+    this.onChanged1,
+    this.onChanged2,
+  });
+  final String title;
+  final String description;
+  final String hintText1;
+  String? Function(String?)? validator1;
+  String? Function(String?)? validator2;
+  TextEditingController? controller1;
+  TextEditingController? controller2;
+  void Function(String)? onChanged1;
+  void Function(String)? onChanged2;
 
   @override
   Widget build(BuildContext context) {
@@ -24,17 +45,26 @@ class CustomWidgetForFillInformation extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(width * 0.02),
               child: CustomFont(
-                name: 'Description',
+                name: title,
                 fontColor: secondaryColor,
                 fontSize: width * 0.05,
                 fontWeight: FontWeight.w600,
               ),
             ),
             CustomTextFormField(
-              hintText: 'Short Description(name)',
+              controller: controller1,
+              onChanged: onChanged1,
+              hintText: hintText1,
               maxLines: 1,
+              validator: validator1,
             ),
-            CustomTextFormField(hintText: 'Full Description', maxLines: 5),
+            CustomTextFormField(
+              controller: controller2,
+              onChanged: onChanged2,
+              hintText: description,
+              maxLines: 5,
+              validator: validator2,
+            ),
 
             CustomWidgetForAddImage(),
           ],

@@ -71,6 +71,9 @@ class CustomTitle extends StatelessWidget {
               CustomSmallContainer(
                 color: number >= 4 ? Color(0xffE29578) : Colors.white,
               ),
+              CustomSmallContainer(
+                color: number >= 5 ? Color(0xffE29578) : Colors.white,
+              ),
             ],
           ),
         ),
