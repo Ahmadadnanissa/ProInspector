@@ -9,7 +9,10 @@ import 'package:property_inspector/features/home_feature/presentation/pages/deta
 import 'package:property_inspector/features/home_feature/presentation/pages/home_page.dart';
 import 'package:property_inspector/features/home_feature/presentation/state_management/request_provider.dart';
 import 'package:property_inspector/features/home_feature/presentation/state_management/request_stats_provider.dart';
+import 'package:property_inspector/features/notification_and_live_chat_feature/data/datasources/notification_remote.dart';
+import 'package:property_inspector/features/notification_and_live_chat_feature/data/repositories/notification_impl.dart';
 import 'package:property_inspector/features/notification_and_live_chat_feature/presentation/pages/notification_page.dart';
+import 'package:property_inspector/features/notification_and_live_chat_feature/presentation/provider_state_managment/notification_provider.dart';
 import 'package:property_inspector/features/property_inspection_feature/presentation/pages/basic_property_information_page.dart';
 import 'package:property_inspector/features/property_inspection_feature/presentation/pages/basic_property_information_page2.dart';
 import 'package:property_inspector/features/property_inspection_feature/presentation/pages/final_inspection_page.dart';
@@ -23,10 +26,13 @@ void main() {
   final repo = RequestRepositoryImpl(remote);
   final remote2 = RequestStatsRemoteDataSource(http.Client());
   final repo2 = RequestStatsRepositoryImpl(remote2);
+  final remoteN = NotificationRemoteDataSource(http.Client());
+  final repoN = NotificationRepositoryImpl(remoteN);
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => RequestProvider(repo)),
+        ChangeNotifierProvider(create: (_) => NotificationProvider(repoN)),
         ChangeNotifierProvider(
           create: (_) => RequestStatsProvider(repo2)..fetchStats(),
         ),
