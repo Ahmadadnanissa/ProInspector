@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:property_inspector/features/home_feature/data/datasources/request_reomte_data_source.dart';
+import 'package:property_inspector/features/home_feature/data/datasources/request_stats_reomte_data_source.dart';
+import 'package:property_inspector/features/home_feature/data/models/request_model.dart';
+import 'package:property_inspector/features/home_feature/domain/repository/request_repository_impl.dart';
+import 'package:property_inspector/features/home_feature/domain/repository/request_stats_repository_impl.dart';
 import 'package:property_inspector/features/home_feature/presentation/pages/details_of_request.dart';
 import 'package:property_inspector/features/home_feature/presentation/pages/home_page.dart';
+import 'package:property_inspector/features/home_feature/presentation/state_management/request_provider.dart';
+import 'package:property_inspector/features/home_feature/presentation/state_management/request_stats_provider.dart';
 import 'package:property_inspector/features/notification_and_live_chat_feature/presentation/pages/notification_page.dart';
 import 'package:property_inspector/features/property_inspection_feature/presentation/pages/basic_property_information_page.dart';
 import 'package:property_inspector/features/property_inspection_feature/presentation/pages/basic_property_information_page2.dart';
@@ -8,9 +16,24 @@ import 'package:property_inspector/features/property_inspection_feature/presenta
 import 'package:property_inspector/features/property_inspection_feature/presentation/pages/room_setup_page.dart';
 import 'package:property_inspector/features/property_inspection_feature/presentation/pages/start_page.dart';
 import 'package:property_inspector/splash__page.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  final remote = RequestRemoteDataSource(http.Client());
+  final repo = RequestRepositoryImpl(remote);
+  final remote2 = RequestStatsRemoteDataSource(http.Client());
+  final repo2 = RequestStatsRepositoryImpl(remote2);
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => RequestProvider(repo)),
+        ChangeNotifierProvider(
+          create: (_) => RequestStatsProvider(repo2)..fetchStats(),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

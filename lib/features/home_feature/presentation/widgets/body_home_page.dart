@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:property_inspector/core/app_theme.dart';
 import 'package:property_inspector/core/widgets/custom_font.dart';
+import 'package:property_inspector/features/home_feature/presentation/state_management/request_provider.dart';
 import 'package:property_inspector/features/home_feature/presentation/widgets/custom_card.dart';
 import 'package:property_inspector/features/home_feature/presentation/widgets/custom_sigle_child_scroll_view.dart';
 import 'package:property_inspector/features/home_feature/presentation/widgets/some_info_about_my_work.dart';
+import 'package:provider/provider.dart';
 
 class BodyHomePage extends StatelessWidget {
   const BodyHomePage({super.key});
@@ -60,16 +62,56 @@ class BodyHomePage extends StatelessWidget {
           ),
         ),
 
-        SliverList(
-          delegate: SliverChildBuilderDelegate((context, index) {
-            return Padding(
-              padding: EdgeInsets.symmetric(vertical: width * 0.02),
-              child: CustomCard(),
-            );
-          }, childCount: 6),
-        ),
+        Consumer<RequestProvider>(
+          builder: (context, provider, child) {
+            // 🟢 Loading
+            if (provider.isLoading) {
+              return SliverToBoxAdapter(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: width * 0.1),
+                  child: Center(
+                    child: SizedBox(
+                      width: 25,
+                      height: 25,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2.5,
+                        color: secondaryColor,
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }
 
-        SliverToBoxAdapter(child: SizedBox(height: width * 0.05)),
+            // 🔴 Empty state
+            if (provider.requests.isEmpty) {
+              return SliverToBoxAdapter(
+                child: Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(width * 0.1),
+                    child: CustomFont(
+                      name: "No requests found",
+                      fontColor: grayColor,
+                      fontSize: width * 0.045,
+                    ),
+                  ),
+                ),
+              );
+            }
+
+            // 🟢 Data
+            return SliverList(
+              delegate: SliverChildBuilderDelegate((context, index) {
+                final request = provider.requests[index];
+
+                return Padding(
+                  padding: EdgeInsets.symmetric(vertical: width * 0.02),
+                  child: CustomCard(request: request),
+                );
+              }, childCount: provider.requests.length),
+            );
+          },
+        ),
       ],
     );
   }

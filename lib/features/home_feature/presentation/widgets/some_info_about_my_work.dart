@@ -1,49 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:property_inspector/core/app_theme.dart';
+import 'package:property_inspector/features/home_feature/presentation/state_management/request_stats_provider.dart';
 import 'package:property_inspector/features/home_feature/presentation/widgets/custom_container_for_info.dart';
+import 'package:provider/provider.dart';
 
-class SomeInfoAboutMyWork extends StatefulWidget {
+class SomeInfoAboutMyWork extends StatelessWidget {
   const SomeInfoAboutMyWork({super.key});
 
   @override
-  State<SomeInfoAboutMyWork> createState() => _SomeInfoAboutMyWorkState();
-}
-
-class _SomeInfoAboutMyWorkState extends State<SomeInfoAboutMyWork> {
-  String isSelected = 'new';
-  @override
   Widget build(BuildContext context) {
+    final provider = context.watch<RequestStatsProvider>();
     double width = MediaQuery.of(context).size.width;
+
+    if (provider.isLoading || provider.stats == null) {
+      return Center(
+        child: SizedBox(
+          width: 20,
+          height: 20,
+          child: CircularProgressIndicator(strokeWidth: 2),
+        ),
+      );
+    }
     return Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            InkWell(
-              borderRadius: BorderRadius.circular(width * 0.05),
-              onTap: () {
-                isSelected = 'new';
-                setState(() {});
-              },
-              child: CustomContainerForInfo(
-                name: 'New Requests',
-                number: '10',
-                color: isSelected == 'new' ? greenColor : Colors.white,
-                colorFont: isSelected == 'new' ? Colors.white : blackColor,
-              ),
+            CustomContainerForInfo(
+              name: 'New Requests',
+              number: provider.stats!.newCount.toString(),
+              color: greenColor,
+              colorFont: Colors.white,
             ),
-            InkWell(
-              borderRadius: BorderRadius.circular(width * 0.05),
-              onTap: () {
-                isSelected = 'progress';
-                setState(() {});
-              },
-              child: CustomContainerForInfo(
-                name: 'In Progress',
-                number: '12',
-                color: isSelected == 'progress' ? greenColor : Colors.white,
-                colorFont: isSelected == 'progress' ? Colors.white : blackColor,
-              ),
+            CustomContainerForInfo(
+              name: 'In Progress',
+              number: provider.stats!.progressCount.toString(),
+              color: Colors.white,
+              colorFont: blackColor,
             ),
           ],
         ),
@@ -51,33 +44,17 @@ class _SomeInfoAboutMyWorkState extends State<SomeInfoAboutMyWork> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            InkWell(
-              borderRadius: BorderRadius.circular(width * 0.05),
-              onTap: () {
-                isSelected = 'completed';
-                setState(() {});
-              },
-              child: CustomContainerForInfo(
-                name: 'Completed',
-                number: '17',
-                color: isSelected == 'completed' ? greenColor : Colors.white,
-                colorFont: isSelected == 'completed'
-                    ? Colors.white
-                    : Colors.green,
-              ),
+            CustomContainerForInfo(
+              name: 'Completed',
+              number: provider.stats!.completedCount.toString(),
+              color: Colors.white,
+              colorFont: Colors.green,
             ),
-            InkWell(
-              borderRadius: BorderRadius.circular(width * 0.05),
-              onTap: () {
-                isSelected = 'Rejected';
-                setState(() {});
-              },
-              child: CustomContainerForInfo(
-                name: 'Rejected',
-                number: '3',
-                color: isSelected == 'Rejected' ? greenColor : Colors.white,
-                colorFont: isSelected == 'Rejected' ? Colors.white : Colors.red,
-              ),
+            CustomContainerForInfo(
+              name: 'Rejected',
+              number: provider.stats!.rejectedCount.toString(),
+              color: Colors.white,
+              colorFont: Colors.red,
             ),
           ],
         ),

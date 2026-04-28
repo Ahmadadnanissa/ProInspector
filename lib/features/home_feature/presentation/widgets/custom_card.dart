@@ -3,10 +3,12 @@ import 'package:property_inspector/core/app_theme.dart';
 import 'package:property_inspector/core/widgets/button.dart';
 import 'package:property_inspector/core/widgets/custom_font.dart';
 import 'package:property_inspector/core/widgets/navigation_route.dart';
+import 'package:property_inspector/features/home_feature/data/models/request_model.dart';
 import 'package:property_inspector/features/home_feature/presentation/pages/details_of_request.dart';
 
 class CustomCard extends StatelessWidget {
-  const CustomCard({super.key});
+  const CustomCard({super.key, required this.request});
+  final RequestModel request;
 
   @override
   Widget build(BuildContext context) {
@@ -42,19 +44,22 @@ class CustomCard extends StatelessWidget {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Image.asset('assets/images/person (1).png'),
+                      child: Image.asset(
+                        request.clientImage,
+                        // 'assets/images/person (1).png'
+                      ),
                     ),
                   ),
                   Column(
                     children: [
                       CustomFont(
-                        name: 'Ali Mostafa',
+                        name: request.clientName,
                         fontColor: blackColor,
                         fontSize: width * 0.05,
                         fontWeight: FontWeight.w600,
                       ),
                       CustomFont(
-                        name: ' Furnished Apartment',
+                        name: request.propertyType,
                         fontColor: grayColor,
                         fontSize: width * 0.035,
                       ),
@@ -68,7 +73,7 @@ class CustomCard extends StatelessWidget {
                     child: Padding(
                       padding: EdgeInsets.all(10),
                       child: CustomFont(
-                        name: 'New',
+                        name: request.status,
                         fontColor: blackColor,
                         fontSize: width * 0.04,
                       ),
@@ -90,7 +95,7 @@ class CustomCard extends StatelessWidget {
                         fontSize: width * 0.04,
                       ),
                       CustomFont(
-                        name: '140.000\$',
+                        name: '${request.expectedPrice}\$',
                         fontColor: blackColor,
                         fontSize: width * 0.05,
                         fontWeight: FontWeight.w600,
@@ -105,7 +110,7 @@ class CustomCard extends StatelessWidget {
                         fontSize: width * 0.04,
                       ),
                       CustomFont(
-                        name: '23 March 2026',
+                        name: request.date,
                         fontColor: grayColor,
                         fontSize: width * 0.04,
                         fontWeight: FontWeight.w600,
