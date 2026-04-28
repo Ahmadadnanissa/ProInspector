@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:property_inspector/core/app_theme.dart';
 import 'package:property_inspector/core/widgets/custom_font.dart';
 import 'package:property_inspector/core/widgets/navigation_route.dart';
-import 'package:property_inspector/features/notification_and_live_chat_feature/presentation/pages/live_chat_page.dart';
 import 'package:property_inspector/features/notification_and_live_chat_feature/presentation/pages/notification_page.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -44,23 +43,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
 
       actions: [
-        InkWell(
-          focusColor: primaryColor,
-          hoverColor: primaryColor,
-          splashColor: primaryColor,
-          highlightColor: primaryColor,
-          onTap: () {
-            Navigator.push(context, SlideRight(page: LiveChatPage()));
-          },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Icon(
-              Icons.chat_outlined,
-              color: secondaryColor,
-              size: width * 0.07,
-            ),
-          ),
-        ),
         InkWell(
           focusColor: primaryColor,
           hoverColor: primaryColor,

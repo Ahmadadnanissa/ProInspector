@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:property_inspector/features/home_feature/presentation/pages/details_of_request.dart';
 import 'package:property_inspector/features/home_feature/presentation/pages/home_page.dart';
-import 'package:property_inspector/features/notification_and_live_chat_feature/presentation/pages/live_chat_page.dart';
 import 'package:property_inspector/features/notification_and_live_chat_feature/presentation/pages/notification_page.dart';
 import 'package:property_inspector/features/property_inspection_feature/presentation/pages/basic_property_information_page.dart';
 import 'package:property_inspector/features/property_inspection_feature/presentation/pages/basic_property_information_page2.dart';
@@ -26,7 +25,6 @@ class MyApp extends StatelessWidget {
         SplashPage.id: (context) => SplashPage(),
         DetailsOfRequest.id: (context) => DetailsOfRequest(),
         NotificationPage.id: (context) => NotificationPage(),
-        LiveChatPage.id: (context) => LiveChatPage(),
         StartPage.id: (context) => StartPage(),
         RoomSetupPage.id: (context) => RoomSetupPage(),
         FinalInspectionPage.id: (context) => FinalInspectionPage(),
