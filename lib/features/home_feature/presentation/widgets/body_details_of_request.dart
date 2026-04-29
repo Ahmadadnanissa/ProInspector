@@ -3,182 +3,180 @@ import 'package:property_inspector/core/app_theme.dart';
 import 'package:property_inspector/core/widgets/button.dart';
 import 'package:property_inspector/core/widgets/custom_font.dart';
 import 'package:property_inspector/core/widgets/navigation_route.dart';
+import 'package:property_inspector/features/home_feature/presentation/state_management/request_details_provider.dart';
 import 'package:property_inspector/features/home_feature/presentation/widgets/custom_image.dart';
 import 'package:property_inspector/features/home_feature/presentation/widgets/custom_widget_for_more_details.dart';
 import 'package:property_inspector/features/home_feature/presentation/widgets/list_of_more_details.dart';
 import 'package:property_inspector/features/property_inspection_feature/presentation/pages/start_page.dart';
+import 'package:provider/provider.dart';
 
-class BodyDetailsOfRequest extends StatelessWidget {
+class BodyDetailsOfRequest extends StatefulWidget {
   const BodyDetailsOfRequest({super.key});
+
+  @override
+  State<BodyDetailsOfRequest> createState() => _BodyDetailsOfRequestState();
+}
+
+class _BodyDetailsOfRequestState extends State<BodyDetailsOfRequest> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      context.read<RequestDetailsProvider>().fetchDetails(1);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    return SingleChildScrollView(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: width * 0.03),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: width * 0.05),
-            CustomFont(
-              name: 'Review Details',
-              fontColor: secondaryColor,
-              fontSize: width * 0.07,
-              fontWeight: FontWeight.w600,
-            ),
-            SizedBox(height: width * 0.06),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  CustomImage(
-                    image:
-                        'assets/images/john-fornander-y3_AHHrxUBY-unsplash.jpg',
-                  ),
-                  CustomImage(
-                    image: 'assets/images/jay-solomon-8lU54uEl8Ok-unsplash.jpg',
-                  ),
-                  CustomImage(
-                    image: 'assets/images/don-kaveen-NFbwes_e-jI-unsplash.jpg',
-                  ),
-                  CustomImage(
-                    image:
-                        'assets/images/lotus-design-n-print-0sDzRgrN_pI-unsplash.jpg',
-                  ),
-                  CustomImage(
-                    image: 'assets/images/spacejoy-KJUGhE9ojro-unsplash.jpg',
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: width * 0.03),
 
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: width * 0.03),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomFont(
-                        name: 'Mountain View Villa',
-                        fontColor: blackColor,
-                        fontSize: width * 0.05,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      CustomFont(
-                        name: 'Villa',
-                        fontColor: Color(0xff5F6264),
-                        fontSize: width * 0.035,
-                      ),
-                    ],
-                  ),
+    return Consumer<RequestDetailsProvider>(
+      builder: (context, provider, child) {
+        if (provider.isLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomFont(
-                        name: '\$120.000',
-                        fontColor: blackColor,
-                        fontSize: width * 0.05,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      CustomFont(
-                        name: 'For Sale',
-                        // widget.type
-                        fontColor: Color(0xff5F6264),
-                        fontSize: width * 0.035,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            ListOfMoreDetails(numberOfPath: 4, numberOfRoom: 5, sqft: 300),
-            SizedBox(height: width * 0.05),
-            CustomFont(
-              name: 'Mor Details',
-              fontColor: blackColor,
-              fontSize: width * 0.05,
-              fontWeight: FontWeight.w600,
-            ),
-            SizedBox(height: width * 0.03),
-            CustomWidgetForMoreDetails(detail: 'Parking', info: 'Available'),
-            CustomWidgetForMoreDetails(
-              detail: 'Outdoor',
-              info: 'Yes(Garden,Terrace)',
-            ),
-            CustomWidgetForMoreDetails(
-              detail: 'Furnishing',
-              info: 'fully Furnished',
-            ),
-            CustomWidgetForMoreDetails(detail: 'Heating', info: 'Available'),
-            CustomWidgetForMoreDetails(
-              detail: 'swimming pool',
-              info: 'Available',
-            ),
+        if (provider.error != null) {
+          return Center(child: Text("Error: ${provider.error}"));
+        }
 
-            SizedBox(height: width * 0.04),
-            CustomFont(
-              name: 'Location',
-              fontColor: blackColor,
-              fontSize: width * 0.05,
-              fontWeight: FontWeight.w600,
-            ),
-            SizedBox(height: width * 0.04),
-            Row(
+        final data = provider.data;
+
+        if (data == null) {
+          return const SizedBox();
+        }
+
+        return SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: width * 0.03),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  width: width * 0.4,
-                  height: width * 0.25,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(width * 0.04),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(width * 0.04),
-                    child: Image.asset(
-                      'assets/images/map_Image.png',
-                      fit: BoxFit.cover,
-                    ),
+                SizedBox(height: width * 0.05),
+
+                CustomFont(
+                  name: 'Review Details',
+                  fontColor: secondaryColor,
+                  fontSize: width * 0.07,
+                  fontWeight: FontWeight.w600,
+                ),
+
+                SizedBox(height: width * 0.06),
+
+                /// 🔥 Images
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: data.images
+                        .map((img) => CustomImage(image: img))
+                        .toList(),
                   ),
                 ),
-                SizedBox(width: width * 0.02),
-                SizedBox(
-                  width: width * 0.45,
-                  child: Text(
-                    'Al-Qadmous, Tartous, Syria',
-                    style: TextStyle(
-                      color: Color(0xff5F6264),
-                      fontSize: width * 0.04,
-                      fontFamily: fontFamily,
+
+                SizedBox(height: width * 0.03),
+
+                /// 🔥 Title + Price
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomFont(
+                          name: data.title,
+                          fontColor: blackColor,
+                          fontSize: width * 0.05,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        CustomFont(
+                          name: data.type,
+                          fontColor: Color(0xff5F6264),
+                          fontSize: width * 0.035,
+                        ),
+                      ],
                     ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomFont(
+                          name: "\$${data.price}",
+                          fontColor: blackColor,
+                          fontSize: width * 0.05,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        CustomFont(
+                          name: data.status,
+                          fontColor: Color(0xff5F6264),
+                          fontSize: width * 0.035,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+
+                ListOfMoreDetails(
+                  numberOfPath: data.baths,
+                  numberOfRoom: data.rooms,
+                  sqft: data.sqft,
+                ),
+
+                SizedBox(height: width * 0.05),
+
+                CustomFont(
+                  name: 'More Details',
+                  fontColor: blackColor,
+                  fontSize: width * 0.05,
+                  fontWeight: FontWeight.w600,
+                ),
+
+                SizedBox(height: width * 0.03),
+
+                /// 🔥 Features dynamic
+                ...data.features.entries.map(
+                  (e) => CustomWidgetForMoreDetails(
+                    detail: e.key,
+                    info: e.value ? "Available" : "Not Available",
                   ),
                 ),
-              ],
-            ),
-            SizedBox(height: width * 0.08),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
+
+                SizedBox(height: width * 0.04),
+
+                /// 🔥 Location
+                Row(
+                  children: [
+                    Container(
+                      width: width * 0.4,
+                      height: width * 0.25,
+                      child: Image.asset(
+                        'assets/images/map_Image.png',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    SizedBox(width: width * 0.02),
+                    Expanded(
+                      child: Text(
+                        data.location,
+                        style: TextStyle(fontSize: width * 0.04),
+                      ),
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: width * 0.08),
+
                 PrimaryButton(
                   name: 'New Form',
                   pushing: () {
                     Navigator.push(context, SlideRight(page: StartPage()));
                   },
                 ),
-                PrimaryButton(
-                  name: 'chat with Client',
-                  color: Color(0xffE29578),
-                  pushing: () {},
-                ),
+
+                SizedBox(height: width * 0.04),
               ],
             ),
-            SizedBox(height: width * 0.04),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }
