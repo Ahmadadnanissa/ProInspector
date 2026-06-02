@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:http/http.dart' as http;
 import 'package:property_inspector/features/home_feature/data/datasources/request_details_remote_data+source.dart';
 import 'package:property_inspector/features/home_feature/data/datasources/request_reomte_data_source.dart';
@@ -6,6 +8,7 @@ import 'package:property_inspector/features/home_feature/data/datasources/reques
 import 'package:property_inspector/features/home_feature/domain/repository/request_details_repository_impl.dart';
 import 'package:property_inspector/features/home_feature/domain/repository/request_repository_impl.dart';
 import 'package:property_inspector/features/home_feature/domain/repository/request_stats_repository_impl.dart';
+import 'package:property_inspector/features/home_feature/domain/usecases/get_requests_use_case.dart';
 import 'package:property_inspector/features/home_feature/presentation/pages/details_of_request.dart';
 import 'package:property_inspector/features/home_feature/presentation/pages/home_page.dart';
 import 'package:property_inspector/features/home_feature/presentation/state_management/request_details_provider.dart';
@@ -23,9 +26,13 @@ import 'package:property_inspector/features/property_inspection_feature/presenta
 import 'package:property_inspector/splash__page.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
+
+  await Hive.openBox('employeeAuthBox');
   final remote = RequestRemoteDataSource(http.Client());
   final repo = RequestRepositoryImpl(remote);
+  final getReguestsUseCase = GetRequestsUseCase(repo);
   final remote2 = RequestStatsRemoteDataSource(http.Client());
   final repo2 = RequestStatsRepositoryImpl(remote2);
   final remoteN = NotificationRemoteDataSource(http.Client());
@@ -35,7 +42,9 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => RequestProvider(repo)),
+        ChangeNotifierProvider(
+          create: (_) => RequestProvider(getReguestsUseCase),
+        ),
         ChangeNotifierProvider(create: (_) => NotificationProvider(repoN)),
         ChangeNotifierProvider(create: (_) => RequestDetailsProvider(repoRD)),
         ChangeNotifierProvider(

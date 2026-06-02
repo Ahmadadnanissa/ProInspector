@@ -6,7 +6,10 @@ class RequestRepositoryImpl {
 
   RequestRepositoryImpl(this.remote);
 
-  Future<List<RequestModel>> getRequests(String status) {
-    return remote.getRequests(status);
+  Future<List<RequestModel>> getRequests({
+    required String token,
+    required String status,
+  }) {
+    return remote.getRequests(token: token, status: status);
   }
 }

@@ -22,7 +22,9 @@ class _BodyDetailsOfRequestState extends State<BodyDetailsOfRequest> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      context.read<RequestDetailsProvider>().fetchDetails(1);
+      if (context.mounted) {
+        context.read<RequestDetailsProvider>().fetchDetails(1);
+      }
     });
   }
 

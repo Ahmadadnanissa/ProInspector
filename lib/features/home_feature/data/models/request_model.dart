@@ -1,8 +1,8 @@
 class RequestModel {
-  final int id;
+  final String id;
   final String clientName;
   final String propertyType;
-  final String status; // new, progress, completed, rejected
+  final String status;
   final double expectedPrice;
   final String date;
   final String clientImage;
@@ -18,14 +18,23 @@ class RequestModel {
   });
 
   factory RequestModel.fromJson(Map<String, dynamic> json) {
+    final client = json['client'] ?? {};
+    final sellData = json['sellData'] ?? {};
+
     return RequestModel(
-      id: json['id'],
-      clientName: json['client_name'],
-      propertyType: json['property_type'],
-      status: json['status'],
-      expectedPrice: json['expected_price'].toDouble(),
-      date: json['date'],
-      clientImage: json['client_image'],
+      id: json['id'] ?? '',
+
+      clientName: client['name'] ?? '',
+
+      propertyType: sellData['type'] ?? '',
+
+      status: json['status'] ?? '',
+
+      expectedPrice: (sellData['price'] as num?)?.toDouble() ?? 0,
+
+      date: json['createdAt'] ?? '',
+
+      clientImage: client['photo'] ?? '',
     );
   }
 }

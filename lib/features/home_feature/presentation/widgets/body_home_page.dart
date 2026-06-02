@@ -7,8 +7,22 @@ import 'package:property_inspector/features/home_feature/presentation/widgets/cu
 import 'package:property_inspector/features/home_feature/presentation/widgets/some_info_about_my_work.dart';
 import 'package:provider/provider.dart';
 
-class BodyHomePage extends StatelessWidget {
+class BodyHomePage extends StatefulWidget {
   const BodyHomePage({super.key});
+
+  @override
+  State<BodyHomePage> createState() => _BodyHomePageState();
+}
+
+class _BodyHomePageState extends State<BodyHomePage> {
+  @override
+  void initState() {
+    super.initState();
+
+    Future.microtask(() {
+      context.read<RequestProvider>().fetchRequests('PENDING');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

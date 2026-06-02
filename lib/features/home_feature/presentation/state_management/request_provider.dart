@@ -1,30 +1,50 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'package:property_inspector/core/services/local_storage_services.dart';
+
 import 'package:property_inspector/features/home_feature/data/models/request_model.dart';
-import 'package:property_inspector/features/home_feature/domain/repository/request_repository_impl.dart';
+import 'package:property_inspector/features/home_feature/domain/usecases/get_requests_use_case.dart';
 
 class RequestProvider extends ChangeNotifier {
-  final RequestRepositoryImpl repo;
+  final GetRequestsUseCase getRequestsUseCase;
 
-  RequestProvider(this.repo);
+  RequestProvider(this.getRequestsUseCase);
 
   List<RequestModel> requests = [];
+
   bool isLoading = false;
 
-  String currentFilter = 'new';
+  String? error;
+
+  String currentFilter = "PENDING";
 
   Future<void> fetchRequests(String status) async {
-    currentFilter = status;
-    isLoading = true;
-    notifyListeners();
+    final token = EmployeeLocalStorageService.getToken();
 
-    try {
-      requests = await repo.getRequests(status);
-    } catch (e) {
-      // ignore: avoid_print
-      print(e);
+    if (token == null) {
+      error = "Token not found";
+      notifyListeners();
+      return;
     }
 
-    isLoading = false;
+    try {
+      currentFilter = status;
+
+      isLoading = true;
+      error = null;
+      notifyListeners();
+
+      requests = await getRequestsUseCase.execute(token: token, status: status);
+    } catch (e) {
+      error = e.toString();
+      debugPrint(error);
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  void clearRequests() {
+    requests.clear();
     notifyListeners();
   }
 }

@@ -5,6 +5,7 @@ import 'package:property_inspector/core/widgets/custom_font.dart';
 import 'package:property_inspector/core/widgets/navigation_route.dart';
 import 'package:property_inspector/features/home_feature/data/models/request_model.dart';
 import 'package:property_inspector/features/home_feature/presentation/pages/details_of_request.dart';
+import 'package:intl/intl.dart';
 
 class CustomCard extends StatelessWidget {
   const CustomCard({super.key, required this.request});
@@ -12,6 +13,9 @@ class CustomCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final formattedDate = request.date.isNotEmpty
+        ? DateFormat('dd MMM yyyy').format(DateTime.parse(request.date))
+        : 'Unknown';
     double width = MediaQuery.of(context).size.width;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: width * 0.03),
@@ -43,10 +47,30 @@ class CustomCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(width * 0.03),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.asset(
-                        request.clientImage,
-                        // 'assets/images/person (1).png'
+                      padding: const EdgeInsets.all(8),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: request.clientImage.isNotEmpty
+                            ? Image.network(
+                                request.clientImage,
+                                width: 50,
+                                height: 50,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Image.asset(
+                                    'assets/images/person.png',
+                                    width: 50,
+                                    height: 50,
+                                    fit: BoxFit.cover,
+                                  );
+                                },
+                              )
+                            : Image.asset(
+                                'assets/images/person.png',
+                                width: 50,
+                                height: 50,
+                                fit: BoxFit.cover,
+                              ),
                       ),
                     ),
                   ),
@@ -110,7 +134,7 @@ class CustomCard extends StatelessWidget {
                         fontSize: width * 0.04,
                       ),
                       CustomFont(
-                        name: request.date,
+                        name: formattedDate,
                         fontColor: grayColor,
                         fontSize: width * 0.04,
                         fontWeight: FontWeight.w600,
