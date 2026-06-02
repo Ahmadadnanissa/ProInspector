@@ -21,10 +21,19 @@ class EmployeeLocalStorageService {
     required String id,
     required String name,
     required String email,
+    String? photo, // 👈 جديد
   }) async {
     await box.put('id', id);
     await box.put('name', name);
     await box.put('email', email);
+
+    if (photo != null) {
+      await box.put('photo', photo);
+    }
+  }
+
+  static String? getPhoto() {
+    return box.get('photo');
   }
 
   static String? getId() {

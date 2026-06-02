@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:http/http.dart' as http;
+import 'package:property_inspector/features/auth_feature/data/datasources/auth_remote_data_source.dart';
+import 'package:property_inspector/features/auth_feature/domain/repository/auth_repository.dart';
+import 'package:property_inspector/features/auth_feature/domain/usecases/login_use_case.dart';
+import 'package:property_inspector/features/auth_feature/presentation/pages/login_page.dart';
+import 'package:property_inspector/features/auth_feature/presentation/state_management/auth_provider.dart';
 import 'package:property_inspector/features/home_feature/data/datasources/request_details_remote_data+source.dart';
 import 'package:property_inspector/features/home_feature/data/datasources/request_reomte_data_source.dart';
 import 'package:property_inspector/features/home_feature/data/datasources/request_stats_reomte_data_source.dart';
@@ -39,16 +44,24 @@ void main() async {
   final repoN = NotificationRepositoryImpl(remoteN);
   final remoteRD = RequestDetailsRemoteDataSource(http.Client());
   final repoRD = RequestDetailsRepositoryImpl(remoteRD);
+  final remoteA = AuthRemoteDataSource(baseUrl: "YOUR_BASE_URL");
+  final repoA = AuthRepository(remoteA);
+  final loginUseCaseA = LoginUseCase(repoA);
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => RequestProvider(getReguestsUseCase),
+          create: (_) => RequestProvider(
+            // getReguestsUseCase
+          ),
         ),
         ChangeNotifierProvider(create: (_) => NotificationProvider(repoN)),
         ChangeNotifierProvider(create: (_) => RequestDetailsProvider(repoRD)),
         ChangeNotifierProvider(
           create: (_) => RequestStatsProvider(repo2)..fetchStats(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => EmployeeAuthProvider(loginUseCaseA),
         ),
       ],
       child: const MyApp(),
@@ -65,6 +78,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       routes: {
         HomePage.id: (context) => HomePage(),
+        LoginPage.id: (context) => LoginPage(),
         SplashPage.id: (context) => SplashPage(),
         DetailsOfRequest.id: (context) => DetailsOfRequest(),
         NotificationPage.id: (context) => NotificationPage(),
@@ -77,7 +91,7 @@ class MyApp extends StatelessWidget {
             BasicPropertyInformationPage2(),
       },
       debugShowCheckedModeBanner: false,
-      initialRoute: HomePage.id,
+      initialRoute: LoginPage.id,
     );
   }
 }

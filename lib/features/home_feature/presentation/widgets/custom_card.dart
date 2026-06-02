@@ -42,6 +42,8 @@ class CustomCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
+                    width: width * 0.2,
+                    height: width * 0.2,
                     decoration: BoxDecoration(
                       color: primaryColor,
                       borderRadius: BorderRadius.circular(width * 0.03),
@@ -50,7 +52,7 @@ class CustomCard extends StatelessWidget {
                       padding: const EdgeInsets.all(8),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(100),
-                        child: request.clientImage.isNotEmpty
+                        child: request.clientImage == ""
                             ? Image.network(
                                 request.clientImage,
                                 width: 50,
@@ -58,7 +60,7 @@ class CustomCard extends StatelessWidget {
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) {
                                   return Image.asset(
-                                    'assets/images/person.png',
+                                    'assets/images/person (1).png',
                                     width: 50,
                                     height: 50,
                                     fit: BoxFit.cover,

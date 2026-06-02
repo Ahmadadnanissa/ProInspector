@@ -1,0 +1,24 @@
+import 'package:flutter/material.dart';
+import 'package:property_inspector/core/app_theme.dart';
+
+// ignore: must_be_immutable
+class NamePage extends StatelessWidget {
+  NamePage({super.key, required this.name});
+  String name;
+  @override
+  Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: width * 0.01),
+      child: Text(
+        name,
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: secondaryColor,
+          fontSize: width * 0.07,
+          fontFamily: fontFamily,
+        ),
+      ),
+    );
+  }
+}
