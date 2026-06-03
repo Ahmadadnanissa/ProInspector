@@ -6,7 +6,10 @@ class RequestDetailsRepositoryImpl {
 
   RequestDetailsRepositoryImpl(this.remote);
 
-  Future<RequestDetailsModel> getDetails(int id) {
-    return remote.getDetails(id);
+  Future<RequestDetailsModel> getDetails({
+    required String requestId,
+    required String token,
+  }) {
+    return remote.getDetails(requestId: requestId, token: token);
   }
 }

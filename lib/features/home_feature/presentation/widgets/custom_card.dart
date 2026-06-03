@@ -150,7 +150,10 @@ class CustomCard extends StatelessWidget {
             PrimaryButton(
               name: 'See Details',
               pushing: () {
-                Navigator.push(context, SlideRight(page: DetailsOfRequest()));
+                Navigator.push(
+                  context,
+                  SlideRight(page: DetailsOfRequest(requestId: request.id)),
+                );
               },
             ),
             SizedBox(height: width * 0.03),

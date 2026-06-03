@@ -3,6 +3,7 @@ import 'package:property_inspector/core/app_theme.dart';
 import 'package:property_inspector/core/widgets/button.dart';
 import 'package:property_inspector/core/widgets/custom_font.dart';
 import 'package:property_inspector/core/widgets/navigation_route.dart';
+import 'package:property_inspector/features/home_feature/presentation/pages/property_on_map_page.dart';
 import 'package:property_inspector/features/home_feature/presentation/state_management/request_details_provider.dart';
 import 'package:property_inspector/features/home_feature/presentation/widgets/custom_image.dart';
 import 'package:property_inspector/features/home_feature/presentation/widgets/custom_widget_for_more_details.dart';
@@ -11,7 +12,8 @@ import 'package:property_inspector/features/property_inspection_feature/presenta
 import 'package:provider/provider.dart';
 
 class BodyDetailsOfRequest extends StatefulWidget {
-  const BodyDetailsOfRequest({super.key});
+  const BodyDetailsOfRequest({super.key, required this.requestId});
+  final String requestId;
 
   @override
   State<BodyDetailsOfRequest> createState() => _BodyDetailsOfRequestState();
@@ -21,11 +23,42 @@ class _BodyDetailsOfRequestState extends State<BodyDetailsOfRequest> {
   @override
   void initState() {
     super.initState();
+
     Future.microtask(() {
-      if (context.mounted) {
-        context.read<RequestDetailsProvider>().fetchDetails(1);
-      }
+      context.read<RequestDetailsProvider>().fetchDetails(widget.requestId);
     });
+  }
+
+  String getFeatureName(String key) {
+    switch (key) {
+      case 'heating':
+        return 'Heating';
+
+      case 'parking':
+        return 'Parking';
+
+      case 'furnished':
+        return 'Furnished';
+
+      case 'swimming_pool':
+        return 'Swimming Pool';
+
+      default:
+        return key;
+    }
+  }
+
+  String getRequestType(String type) {
+    switch (type) {
+      case 'SELL':
+        return 'For Sale';
+
+      case 'RENT':
+        return 'For Rent';
+
+      default:
+        return type;
+    }
   }
 
   @override
@@ -66,14 +99,15 @@ class _BodyDetailsOfRequestState extends State<BodyDetailsOfRequest> {
                 SizedBox(height: width * 0.06),
 
                 /// 🔥 Images
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: data.images
-                        .map((img) => CustomImage(image: img))
-                        .toList(),
+                if (data.images.isNotEmpty)
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: data.images
+                          .map((img) => CustomImage(image: img))
+                          .toList(),
+                    ),
                   ),
-                ),
 
                 SizedBox(height: width * 0.03),
 
@@ -101,13 +135,13 @@ class _BodyDetailsOfRequestState extends State<BodyDetailsOfRequest> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CustomFont(
-                          name: "\$${data.price}",
+                          name: "\$${data.price.toInt()}",
                           fontColor: blackColor,
                           fontSize: width * 0.05,
                           fontWeight: FontWeight.bold,
                         ),
                         CustomFont(
-                          name: data.status,
+                          name: getRequestType(data.status),
                           fontColor: Color(0xff5F6264),
                           fontSize: width * 0.035,
                         ),
@@ -136,7 +170,7 @@ class _BodyDetailsOfRequestState extends State<BodyDetailsOfRequest> {
                 /// 🔥 Features dynamic
                 ...data.features.entries.map(
                   (e) => CustomWidgetForMoreDetails(
-                    detail: e.key,
+                    detail: getFeatureName(e.key),
                     info: e.value ? "Available" : "Not Available",
                   ),
                 ),
@@ -146,12 +180,25 @@ class _BodyDetailsOfRequestState extends State<BodyDetailsOfRequest> {
                 /// 🔥 Location
                 Row(
                   children: [
-                    Container(
-                      width: width * 0.4,
-                      height: width * 0.25,
-                      child: Image.asset(
-                        'assets/images/map_Image.png',
-                        fit: BoxFit.cover,
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          SlideRight(
+                            page: PropertyOnMap(
+                              propertyLat: data.latitude,
+                              propertyLng: data.longitude,
+                            ),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        width: width * 0.4,
+                        height: width * 0.25,
+                        child: Image.asset(
+                          'assets/images/map_Image.png',
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                     SizedBox(width: width * 0.02),

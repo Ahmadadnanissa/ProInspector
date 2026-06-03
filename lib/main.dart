@@ -13,6 +13,7 @@ import 'package:property_inspector/features/home_feature/data/datasources/reques
 import 'package:property_inspector/features/home_feature/domain/repository/request_details_repository_impl.dart';
 import 'package:property_inspector/features/home_feature/domain/repository/request_repository_impl.dart';
 import 'package:property_inspector/features/home_feature/domain/repository/request_stats_repository_impl.dart';
+import 'package:property_inspector/features/home_feature/domain/usecases/get_request_details_use_Case.dart';
 import 'package:property_inspector/features/home_feature/domain/usecases/get_requests_use_case.dart';
 import 'package:property_inspector/features/home_feature/presentation/pages/details_of_request.dart';
 import 'package:property_inspector/features/home_feature/presentation/pages/home_page.dart';
@@ -38,12 +39,14 @@ void main() async {
   final remote = RequestRemoteDataSource(http.Client());
   final repo = RequestRepositoryImpl(remote);
   final getReguestsUseCase = GetRequestsUseCase(repo);
+
   final remote2 = RequestStatsRemoteDataSource(http.Client());
   final repo2 = RequestStatsRepositoryImpl(remote2);
   final remoteN = NotificationRemoteDataSource(http.Client());
   final repoN = NotificationRepositoryImpl(remoteN);
   final remoteRD = RequestDetailsRemoteDataSource(http.Client());
   final repoRD = RequestDetailsRepositoryImpl(remoteRD);
+  final getRequestDetailsUseCase = GetRequestDetailsUseCase(repoRD);
   final remoteA = AuthRemoteDataSource(baseUrl: "YOUR_BASE_URL");
   final repoA = AuthRepository(remoteA);
   final loginUseCaseA = LoginUseCase(repoA);
@@ -56,7 +59,11 @@ void main() async {
           ),
         ),
         ChangeNotifierProvider(create: (_) => NotificationProvider(repoN)),
-        ChangeNotifierProvider(create: (_) => RequestDetailsProvider(repoRD)),
+        ChangeNotifierProvider(
+          create: (_) => RequestDetailsProvider(
+            // getRequestDetailsUseCase
+          ),
+        ),
         ChangeNotifierProvider(
           create: (_) => RequestStatsProvider(repo2)..fetchStats(),
         ),
@@ -80,7 +87,7 @@ class MyApp extends StatelessWidget {
         HomePage.id: (context) => HomePage(),
         LoginPage.id: (context) => LoginPage(),
         SplashPage.id: (context) => SplashPage(),
-        DetailsOfRequest.id: (context) => DetailsOfRequest(),
+        DetailsOfRequest.id: (context) => DetailsOfRequest(requestId: ''),
         NotificationPage.id: (context) => NotificationPage(),
         StartPage.id: (context) => StartPage(),
         RoomSetupPage.id: (context) => RoomSetupPage(),
