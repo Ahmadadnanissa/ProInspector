@@ -3,6 +3,7 @@ import 'package:property_inspector/core/app_theme.dart';
 import 'package:property_inspector/core/widgets/button.dart';
 import 'package:property_inspector/core/widgets/custom_font.dart';
 import 'package:property_inspector/core/widgets/navigation_route.dart';
+import 'package:property_inspector/features/home_feature/presentation/pages/Schedule_page.dart';
 import 'package:property_inspector/features/home_feature/presentation/pages/property_on_map_page.dart';
 import 'package:property_inspector/features/home_feature/presentation/state_management/request_details_provider.dart';
 import 'package:property_inspector/features/home_feature/presentation/widgets/custom_image.dart';
@@ -213,11 +214,25 @@ class _BodyDetailsOfRequestState extends State<BodyDetailsOfRequest> {
 
                 SizedBox(height: width * 0.08),
 
-                PrimaryButton(
-                  name: 'New Form',
-                  pushing: () {
-                    Navigator.push(context, SlideRight(page: StartPage()));
-                  },
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    PrimaryButton(
+                      name: 'New Form',
+                      pushing: () {
+                        Navigator.push(context, SlideRight(page: StartPage()));
+                      },
+                    ),
+                    PrimaryButton(
+                      name: 'Set a date',
+                      pushing: () {
+                        Navigator.push(
+                          context,
+                          SlideRight(page: SchedulePage()),
+                        );
+                      },
+                    ),
+                  ],
                 ),
 
                 SizedBox(height: width * 0.04),

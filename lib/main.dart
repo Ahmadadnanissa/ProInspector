@@ -20,6 +20,7 @@ import 'package:property_inspector/features/home_feature/presentation/pages/home
 import 'package:property_inspector/features/home_feature/presentation/state_management/request_details_provider.dart';
 import 'package:property_inspector/features/home_feature/presentation/state_management/request_provider.dart';
 import 'package:property_inspector/features/home_feature/presentation/state_management/request_stats_provider.dart';
+import 'package:property_inspector/features/home_feature/presentation/state_management/schedule_provider.dart';
 import 'package:property_inspector/features/notification_and_live_chat_feature/data/datasources/notification_remote.dart';
 import 'package:property_inspector/features/notification_and_live_chat_feature/data/repositories/notification_impl.dart';
 import 'package:property_inspector/features/notification_and_live_chat_feature/presentation/pages/notification_page.dart';
@@ -70,7 +71,10 @@ void main() async {
         ChangeNotifierProvider(
           create: (_) => EmployeeAuthProvider(loginUseCaseA),
         ),
+
+        ChangeNotifierProvider(create: (_) => ScheduleProvider()),
       ],
+
       child: const MyApp(),
     ),
   );
