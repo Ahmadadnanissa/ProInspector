@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:http/http.dart' as http;
+import 'package:property_inspector/core/app_theme.dart';
 import 'package:property_inspector/features/auth_feature/data/datasources/auth_remote_data_source.dart';
 import 'package:property_inspector/features/auth_feature/domain/repository/auth_repository.dart';
 import 'package:property_inspector/features/auth_feature/domain/usecases/login_use_case.dart';
@@ -97,12 +98,21 @@ class MyApp extends StatelessWidget {
         RoomSetupPage.id: (context) => RoomSetupPage(),
         FinalInspectionPage.id: (context) => FinalInspectionPage(),
         BasicPropertyInformationPage.id: (context) =>
-            BasicPropertyInformationPage(),
+            BasicPropertyInformationPage(
+              shortDescription: '',
+              fullDescription: '',
+              propertyType: '',
+              galleryPhoto: [],
+              zipCode: '',
+            ),
         BasicPropertyInformationPage2.id: (context) =>
             BasicPropertyInformationPage2(),
       },
       debugShowCheckedModeBanner: false,
       initialRoute: LoginPage.id,
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.light,
     );
   }
 }

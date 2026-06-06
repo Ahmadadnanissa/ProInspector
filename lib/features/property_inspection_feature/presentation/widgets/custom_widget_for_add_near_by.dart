@@ -56,6 +56,7 @@ class _CustomWidetForAddOutDoorPlacesState
           title: 'Outdoor Area',
           description: 'Description',
           hintText1: 'Swimming Pool',
+          galleryPhoto: [],
         ),
         Padding(
           padding: const EdgeInsets.all(15),

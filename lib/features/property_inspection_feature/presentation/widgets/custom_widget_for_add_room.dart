@@ -63,6 +63,7 @@ class _CustomWidgetForAddRoomState extends State<CustomWidgetForAddRoom> {
               title: 'Add Room',
               description: 'Description',
               hintText1: 'Name Room',
+              galleryPhoto: [],
             ),
 
             Padding(

@@ -31,6 +31,7 @@ class BodyBasicPropertyInformationPage2 extends StatelessWidget {
                 title: 'Area(SQFT)',
                 description: 'Description',
                 hintText1: '200',
+                galleryPhoto: [],
               ),
             ),
 

@@ -3,15 +3,15 @@ import 'package:property_inspector/core/app_theme.dart';
 import 'package:property_inspector/core/widgets/custom_font.dart';
 import 'package:property_inspector/features/property_inspection_feature/presentation/widgets/propery_type_check_in_filter.dart';
 
+// ignore: must_be_immutable
 class ListOfPropertyType extends StatefulWidget {
-  const ListOfPropertyType({super.key});
-
+  ListOfPropertyType({super.key, required this.selectedType});
+  String selectedType;
   @override
   State<ListOfPropertyType> createState() => _ListOfPropertyTypeState();
 }
 
 class _ListOfPropertyTypeState extends State<ListOfPropertyType> {
-  String selectedType = 'Apartment';
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -34,55 +34,75 @@ class _ListOfPropertyTypeState extends State<ListOfPropertyType> {
         InkWell(
           borderRadius: BorderRadius.circular(width * 0.03),
           onTap: () {
-            selectedType = 'Apartment';
+            widget.selectedType = 'APARTMENT';
             setState(() {});
           },
           child: ProperyTypeCheckInFilter(
-            image: 'assets/images/Building.png',
+            icon: Icons.apartment,
             type: 'Apartment',
-            isSelected: selectedType == 'Apartment' ? true : false,
+            isSelected: widget.selectedType == 'APARTMENT',
           ),
         ),
+
         SizedBox(height: width * 0.02),
+
         InkWell(
           borderRadius: BorderRadius.circular(width * 0.03),
           onTap: () {
-            selectedType = 'Villa';
+            widget.selectedType = 'VILLA';
             setState(() {});
           },
           child: ProperyTypeCheckInFilter(
-            image: 'assets/images/House With a Garden.png',
+            icon: Icons.villa,
             type: 'Villa',
-            isSelected: selectedType == 'Villa' ? true : false,
+            isSelected: widget.selectedType == 'VILLA',
           ),
         ),
+
         SizedBox(height: width * 0.02),
+
         InkWell(
           borderRadius: BorderRadius.circular(width * 0.03),
           onTap: () {
-            selectedType = 'House';
+            widget.selectedType = 'HOUSE';
             setState(() {});
           },
           child: ProperyTypeCheckInFilter(
-            image: 'assets/images/Home.png',
+            icon: Icons.home_outlined,
             type: 'House',
-            isSelected: selectedType == 'House' ? true : false,
+            isSelected: widget.selectedType == 'HOUSE',
           ),
         ),
+
         SizedBox(height: width * 0.02),
+
         InkWell(
           borderRadius: BorderRadius.circular(width * 0.03),
           onTap: () {
-            selectedType = 'office';
+            widget.selectedType = 'HALL';
             setState(() {});
           },
           child: ProperyTypeCheckInFilter(
-            image: 'assets/images/Office.png',
-            type: 'office',
-            isSelected: selectedType == 'office' ? true : false,
+            icon: Icons.business_center_outlined,
+            type: 'Hall',
+            isSelected: widget.selectedType == 'HALL',
           ),
         ),
+
         SizedBox(height: width * 0.02),
+
+        InkWell(
+          borderRadius: BorderRadius.circular(width * 0.03),
+          onTap: () {
+            widget.selectedType = 'STORE';
+            setState(() {});
+          },
+          child: ProperyTypeCheckInFilter(
+            icon: Icons.storefront_outlined,
+            type: 'Store',
+            isSelected: widget.selectedType == 'STORE',
+          ),
+        ),
       ],
     );
   }

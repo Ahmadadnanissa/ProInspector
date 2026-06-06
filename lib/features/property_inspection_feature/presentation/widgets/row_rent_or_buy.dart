@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:property_inspector/features/property_inspection_feature/presentation/widgets/buy_or_rent_custom_container.dart';
 
+// ignore: must_be_immutable
 class RowRentOrBuy extends StatefulWidget {
-  const RowRentOrBuy({super.key});
+  RowRentOrBuy({super.key, this.isSelectedSall});
+  bool? isSelectedSall;
 
   @override
   State<RowRentOrBuy> createState() => _RowRentOrBuyState();
 }
 
 class _RowRentOrBuyState extends State<RowRentOrBuy> {
-  bool isSelectedBuy = true;
   bool isSelectedRent = false;
   @override
   Widget build(BuildContext context) {
@@ -25,26 +26,26 @@ class _RowRentOrBuyState extends State<RowRentOrBuy> {
           InkWell(
             borderRadius: BorderRadius.circular(width * 0.03),
             onTap: () {
-              isSelectedBuy = true;
+              widget.isSelectedSall = true;
               isSelectedRent = false;
               setState(() {});
             },
             child: BuyOrRentCustomContainer(
-              image: 'assets/images/buy.png',
-              forWhat: 'For Buy',
-              isSelected: isSelectedBuy,
+              icon: Icons.shopping_cart_outlined,
+              forWhat: 'For Sall',
+              isSelected: widget.isSelectedSall!,
             ),
           ),
 
           InkWell(
             borderRadius: BorderRadius.circular(width * 0.03),
             onTap: () {
-              isSelectedBuy = false;
+              widget.isSelectedSall = false;
               isSelectedRent = true;
               setState(() {});
             },
             child: BuyOrRentCustomContainer(
-              image: 'assets/images/rent.png',
+              icon: Icons.key_outlined,
               forWhat: 'For Rent',
               isSelected: isSelectedRent,
             ),

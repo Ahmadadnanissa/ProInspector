@@ -8,8 +8,38 @@ import 'package:property_inspector/features/property_inspection_feature/presenta
 import 'package:property_inspector/features/property_inspection_feature/presentation/widgets/row_rent_or_buy.dart';
 import 'package:property_inspector/features/property_inspection_feature/presentation/widgets/secondary_button.dart';
 
-class BodyBasicPropertyInformationPage extends StatelessWidget {
-  const BodyBasicPropertyInformationPage({super.key});
+class BodyBasicPropertyInformationPage extends StatefulWidget {
+  const BodyBasicPropertyInformationPage({
+    super.key,
+    required this.shortDescription,
+    required this.fullDescription,
+    required this.propertyType,
+    required this.galleryPhoto,
+    required this.zipCode,
+  });
+  final String shortDescription;
+  final String fullDescription;
+  final String zipCode;
+  final String propertyType;
+  final List<String> galleryPhoto;
+
+  @override
+  State<BodyBasicPropertyInformationPage> createState() =>
+      _BodyBasicPropertyInformationPageState();
+}
+
+class _BodyBasicPropertyInformationPageState
+    extends State<BodyBasicPropertyInformationPage> {
+  bool isSelectedSall = false;
+  final TextEditingController askingPrice = TextEditingController();
+
+  @override
+  void dispose() {
+    askingPrice.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -23,7 +53,7 @@ class BodyBasicPropertyInformationPage extends StatelessWidget {
               subTitle: 'Enter the main details of the Property',
               number: 2,
             ),
-            RowRentOrBuy(),
+            RowRentOrBuy(isSelectedSall: isSelectedSall),
 
             CustomTextFormField(hintText: 'Asking Price', maxLines: 1),
 
