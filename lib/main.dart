@@ -29,6 +29,7 @@ import 'package:property_inspector/features/notification_and_live_chat_feature/p
 import 'package:property_inspector/features/property_inspection_feature/presentation/pages/basic_property_information_page.dart';
 import 'package:property_inspector/features/property_inspection_feature/presentation/pages/basic_property_information_page2.dart';
 import 'package:property_inspector/features/property_inspection_feature/presentation/pages/final_inspection_page.dart';
+import 'package:property_inspector/features/property_inspection_feature/presentation/pages/map_pagr_for_request_page.dart';
 import 'package:property_inspector/features/property_inspection_feature/presentation/pages/room_setup_page.dart';
 import 'package:property_inspector/features/property_inspection_feature/presentation/pages/start_page.dart';
 import 'package:property_inspector/splash__page.dart';
@@ -91,6 +92,7 @@ class MyApp extends StatelessWidget {
       routes: {
         HomePage.id: (context) => HomePage(),
         LoginPage.id: (context) => LoginPage(),
+        MapPageForRequestPage.id: (context) => MapPageForRequestPage(),
         SplashPage.id: (context) => SplashPage(),
         DetailsOfRequest.id: (context) => DetailsOfRequest(requestId: ''),
         NotificationPage.id: (context) => NotificationPage(),

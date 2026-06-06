@@ -3,8 +3,8 @@ import 'package:property_inspector/features/property_inspection_feature/presenta
 
 // ignore: must_be_immutable
 class RowRentOrBuy extends StatefulWidget {
-  RowRentOrBuy({super.key, this.isSelectedSall});
-  bool? isSelectedSall;
+  RowRentOrBuy({super.key, required this.listingType});
+  final TextEditingController listingType;
 
   @override
   State<RowRentOrBuy> createState() => _RowRentOrBuyState();
@@ -26,23 +26,23 @@ class _RowRentOrBuyState extends State<RowRentOrBuy> {
           InkWell(
             borderRadius: BorderRadius.circular(width * 0.03),
             onTap: () {
-              widget.isSelectedSall = true;
               isSelectedRent = false;
               setState(() {});
+              widget.listingType.text = isSelectedRent ? "RENT" : "SALE";
             },
             child: BuyOrRentCustomContainer(
               icon: Icons.shopping_cart_outlined,
               forWhat: 'For Sall',
-              isSelected: widget.isSelectedSall!,
+              isSelected: !isSelectedRent,
             ),
           ),
 
           InkWell(
             borderRadius: BorderRadius.circular(width * 0.03),
             onTap: () {
-              widget.isSelectedSall = false;
               isSelectedRent = true;
               setState(() {});
+              widget.listingType.text = isSelectedRent ? "RENT" : "SALE";
             },
             child: BuyOrRentCustomContainer(
               icon: Icons.key_outlined,

@@ -1,13 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:property_inspector/core/app_theme.dart';
 import 'package:property_inspector/core/widgets/custom_font.dart';
+import 'package:property_inspector/features/property_inspection_feature/presentation/pages/map_pagr_for_request_page.dart';
 import 'package:property_inspector/features/property_inspection_feature/presentation/widgets/custom_near_by_place.dart';
 import 'package:property_inspector/features/property_inspection_feature/presentation/widgets/custom_new_button.dart';
 import 'package:property_inspector/features/property_inspection_feature/presentation/widgets/custom_text_form_field.dart';
 
+// ignore: must_be_immutable
 class CustomWidgetForFillLocationInformation extends StatefulWidget {
-  const CustomWidgetForFillLocationInformation({super.key});
-
+  const CustomWidgetForFillLocationInformation({
+    super.key,
+    required this.location,
+    required this.cityName,
+    required this.lat,
+    required this.lon,
+    required this.nearbyPlaces,
+  });
+  final TextEditingController location;
+  final TextEditingController cityName;
+  final TextEditingController lat;
+  final TextEditingController lon;
+  final List<String> nearbyPlaces;
   @override
   State<CustomWidgetForFillLocationInformation> createState() =>
       _CustomWidgetForFillLocationInformationState();
@@ -15,7 +28,6 @@ class CustomWidgetForFillLocationInformation extends StatefulWidget {
 
 class _CustomWidgetForFillLocationInformationState
     extends State<CustomWidgetForFillLocationInformation> {
-  List<String> nearbyPlaces = [];
   final TextEditingController nearbyController = TextEditingController();
   String? value;
 
@@ -51,23 +63,51 @@ class _CustomWidgetForFillLocationInformationState
             Row(
               children: [
                 Expanded(
-                  child: CustomTextFormField(hintText: 'City', maxLines: 1),
-                ),
-                Container(
-                  width: width * 0.15,
-                  height: width * 0.12,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(width * 0.04),
+                  child: CustomTextFormField(
+                    hintText: 'City',
+                    maxLines: 1,
+                    controller: widget.cityName,
                   ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(width * 0.04),
-                    child: Image.asset(
-                      'assets/images/map_Image.png',
-                      fit: BoxFit.cover,
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    final result = await Navigator.pushNamed(
+                      context,
+                      MapPageForRequestPage.id,
+                    );
+
+                    if (result is Map<String, dynamic>) {
+                      setState(() {
+                        widget.lat.text = (result["lat"] ?? '').toString();
+                        widget.lon.text = (result["lng"] ?? '').toString();
+                        widget.cityName.text = result["city"]?.toString() ?? '';
+                        widget.location.text =
+                            result["address"]?.toString() ?? '';
+                      });
+                    }
+                  },
+                  child: Container(
+                    width: width * 0.15,
+                    height: width * 0.12,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(width * 0.04),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(width * 0.04),
+                      child: Image.asset(
+                        'assets/images/map_Image.png',
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
               ],
+            ),
+            const SizedBox(height: 10),
+            CustomTextFormField(
+              hintText: 'Property Location',
+              maxLines: 1,
+              controller: widget.location,
             ),
             const SizedBox(height: 10),
             Row(
@@ -85,12 +125,16 @@ class _CustomWidgetForFillLocationInformationState
                 CustomNewButton(
                   name: 'New',
                   pushing: () {
-                    if (value != null) {
-                      setState(() {
-                        nearbyPlaces.add(nearbyController.text.trim());
-                        nearbyController.clear();
-                      });
-                    }
+                    final place = nearbyController.text.trim();
+
+                    if (place.isEmpty) return;
+
+                    if (widget.nearbyPlaces.contains(place)) return;
+
+                    setState(() {
+                      widget.nearbyPlaces.add(place);
+                      nearbyController.clear();
+                    });
                   },
                 ),
               ],
@@ -99,7 +143,7 @@ class _CustomWidgetForFillLocationInformationState
               hintText: 'Nearby Place',
               maxLines: 1,
               validator: (data) {
-                RegExp xRegex = RegExp(r'^[A-Za-z][A-Za-z ]$');
+                RegExp xRegex = RegExp(r'^[a-zA-Z\u0600-\u06FF ]+$');
                 if (data!.isEmpty || !xRegex.hasMatch(data.trim())) {
                   return 'field required';
                 }
@@ -114,7 +158,8 @@ class _CustomWidgetForFillLocationInformationState
               spacing: 8,
               runSpacing: 8,
               children: [
-                for (var place in nearbyPlaces) CustomNearByPlace(name: place),
+                for (var place in widget.nearbyPlaces)
+                  CustomNearByPlace(name: place),
               ],
             ),
           ],

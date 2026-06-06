@@ -30,13 +30,24 @@ class BodyBasicPropertyInformationPage extends StatefulWidget {
 
 class _BodyBasicPropertyInformationPageState
     extends State<BodyBasicPropertyInformationPage> {
-  bool isSelectedSall = false;
   final TextEditingController askingPrice = TextEditingController();
+  final TextEditingController location = TextEditingController();
+  final TextEditingController cityName = TextEditingController();
+  final TextEditingController listingType = TextEditingController(text: "SALE");
+
+  final TextEditingController lat = TextEditingController();
+  final TextEditingController lon = TextEditingController();
+
+  List<String> nearByPlaces = [];
 
   @override
   void dispose() {
     askingPrice.dispose();
-
+    listingType.dispose();
+    location.dispose();
+    cityName.dispose();
+    lat.dispose();
+    lon.dispose();
     super.dispose();
   }
 
@@ -53,16 +64,26 @@ class _BodyBasicPropertyInformationPageState
               subTitle: 'Enter the main details of the Property',
               number: 2,
             ),
-            RowRentOrBuy(isSelectedSall: isSelectedSall),
+            RowRentOrBuy(listingType: listingType),
 
-            CustomTextFormField(hintText: 'Asking Price', maxLines: 1),
+            CustomTextFormField(
+              hintText: 'Asking Price',
+              maxLines: 1,
+              controller: askingPrice,
+            ),
 
             Padding(
               padding: const EdgeInsets.all(15),
               child: Divider(height: 20, thickness: 0.5, color: grayColor),
             ),
 
-            CustomWidgetForFillLocationInformation(),
+            CustomWidgetForFillLocationInformation(
+              nearbyPlaces: nearByPlaces,
+              location: location,
+              cityName: cityName,
+              lat: lat,
+              lon: lon,
+            ),
 
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 24),
@@ -82,7 +103,22 @@ class _BodyBasicPropertyInformationPageState
                     pushing: () {
                       Navigator.push(
                         context,
-                        SlideRight(page: BasicPropertyInformationPage2()),
+                        SlideRight(
+                          page: BasicPropertyInformationPage2(
+                            fullDescription: widget.fullDescription,
+                            shortDescription: widget.shortDescription,
+                            zipCode: widget.zipCode,
+                            propertyType: widget.propertyType,
+                            galleryPhoto: widget.galleryPhoto,
+                            askingPrice: askingPrice.text,
+                            listingType: listingType.text,
+                            cityName: cityName.text,
+                            location: location.text,
+                            lat: double.tryParse(lat.text) ?? 0.0,
+                            lon: double.tryParse(lon.text) ?? 0.0,
+                            nearByPlaces: nearByPlaces,
+                          ),
+                        ),
                       );
                     },
                     isBack: false,

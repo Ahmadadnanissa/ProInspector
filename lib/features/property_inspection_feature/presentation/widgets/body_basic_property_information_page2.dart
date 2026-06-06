@@ -9,7 +9,37 @@ import 'package:property_inspector/features/property_inspection_feature/presenta
 import 'package:property_inspector/features/property_inspection_feature/presentation/widgets/secondary_button.dart';
 
 class BodyBasicPropertyInformationPage2 extends StatelessWidget {
-  const BodyBasicPropertyInformationPage2({super.key});
+  const BodyBasicPropertyInformationPage2({
+    super.key,
+    required this.fullDescription,
+    required this.shortDescription,
+    required this.zipCode,
+    required this.propertyType,
+    required this.galleryPhoto,
+    required this.askingPrice,
+    required this.listingType,
+    required this.cityName,
+    required this.location,
+    required this.lat,
+    required this.lon,
+    required this.nearByPlaces,
+  });
+  final String fullDescription;
+  final String shortDescription;
+  final String zipCode;
+  final String propertyType;
+  final List<String> galleryPhoto;
+
+  final String askingPrice;
+  final String listingType;
+
+  final String cityName;
+  final String location;
+
+  final double lat;
+  final double lon;
+
+  final List<String> nearByPlaces;
 
   @override
   Widget build(BuildContext context) {
