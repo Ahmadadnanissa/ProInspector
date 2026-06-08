@@ -9,8 +9,8 @@ import 'package:property_inspector/features/property_inspection_feature/presenta
 import 'package:property_inspector/features/property_inspection_feature/presentation/widgets/secondary_button.dart';
 
 class BodyStartPage extends StatefulWidget {
-  const BodyStartPage({super.key});
-
+  const BodyStartPage({super.key, required this.requestId});
+  final String requestId;
   @override
   State<BodyStartPage> createState() => _BodyStartPageState();
 }

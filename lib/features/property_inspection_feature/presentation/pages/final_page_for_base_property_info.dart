@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:property_inspector/core/app_theme.dart';
 import 'package:property_inspector/features/home_feature/presentation/widgets/custom_app_bar.dart';
 import 'package:property_inspector/features/property_inspection_feature/data/models/out_door_model.dart';
-import 'package:property_inspector/features/property_inspection_feature/presentation/widgets/body_room_set_up.dart';
+import 'package:property_inspector/features/property_inspection_feature/data/models/room_item.dart';
+import 'package:property_inspector/features/property_inspection_feature/presentation/widgets/body_final_page_for_base_property_info.dart';
 
-class RoomSetupPage extends StatelessWidget {
-  const RoomSetupPage({
+class FinalPageForBasePropertyInfo extends StatelessWidget {
+  const FinalPageForBasePropertyInfo({
     super.key,
     required this.fullDescription,
     required this.shortDescription,
@@ -22,6 +22,7 @@ class RoomSetupPage extends StatelessWidget {
     required this.outDoors,
     required this.sqftArea,
     required this.constructionYear,
+    required this.roomItems,
   });
   final String fullDescription;
   final String shortDescription;
@@ -40,31 +41,30 @@ class RoomSetupPage extends StatelessWidget {
 
   final String sqftArea;
   final String constructionYear;
-  static String id = 'RoomSetUp';
+
+  final List<RoomItem> roomItems;
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: primaryColor,
-        appBar: CustomAppBar(),
-        body: BodyRoomSetUp(
-          fullDescription: fullDescription,
-          shortDescription: shortDescription,
-          zipCode: zipCode,
-          propertyType: propertyType,
-          galleryPhoto: galleryPhoto,
-          askingPrice: askingPrice,
-          listingType: listingType,
-          cityName: cityName,
-          location: location,
-          lat: lat,
-          lon: lon,
-          nearByPlaces: nearByPlaces,
-          outDoors: outDoors,
-          sqftArea: sqftArea,
-          constructionYear: constructionYear,
-        ),
+    return Scaffold(
+      appBar: CustomAppBar(),
+      body: BodyFinalPageForBasePropertyInfo(
+        fullDescription: fullDescription,
+        shortDescription: shortDescription,
+        zipCode: zipCode,
+        propertyType: propertyType,
+        galleryPhoto: galleryPhoto,
+        askingPrice: askingPrice,
+        listingType: listingType,
+        cityName: cityName,
+        location: location,
+        lat: lat,
+        lon: lon,
+        nearByPlaces: nearByPlaces,
+        outDoors: outDoors,
+        sqftArea: sqftArea,
+        constructionYear: constructionYear,
+        roomItems: roomItems,
       ),
     );
   }

@@ -220,7 +220,12 @@ class _BodyDetailsOfRequestState extends State<BodyDetailsOfRequest> {
                     PrimaryButton(
                       name: 'New Form',
                       pushing: () {
-                        Navigator.push(context, SlideRight(page: StartPage()));
+                        Navigator.push(
+                          context,
+                          SlideRight(
+                            page: StartPage(requestId: widget.requestId),
+                          ),
+                        );
                       },
                     ),
                     PrimaryButton(

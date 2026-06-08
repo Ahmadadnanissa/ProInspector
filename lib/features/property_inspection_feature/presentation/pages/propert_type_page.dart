@@ -3,10 +3,10 @@ import 'package:property_inspector/core/app_theme.dart';
 import 'package:property_inspector/features/home_feature/presentation/widgets/custom_app_bar.dart';
 import 'package:property_inspector/features/property_inspection_feature/data/models/out_door_model.dart';
 import 'package:property_inspector/features/property_inspection_feature/data/models/room_item.dart';
-import 'package:property_inspector/features/property_inspection_feature/presentation/widgets/body_final_inspection_page.dart';
+import 'package:property_inspector/features/property_inspection_feature/presentation/widgets/body_property_type.dart';
 
-class FinalInspectionPage extends StatelessWidget {
-  const FinalInspectionPage({
+class PropertTypePage extends StatelessWidget {
+  const PropertTypePage({
     super.key,
     required this.fullDescription,
     required this.shortDescription,
@@ -35,9 +35,6 @@ class FinalInspectionPage extends StatelessWidget {
     required this.maintenanceLevel,
     required this.neighborhoodScore,
     required this.exteriorFinish,
-    this.floorNumber,
-    this.numberOfFloors,
-    required this.elevator,
   });
   final String fullDescription;
   final String shortDescription;
@@ -80,20 +77,13 @@ class FinalInspectionPage extends StatelessWidget {
 
   final String exteriorFinish;
 
-  final String? floorNumber;
-
-  final String? numberOfFloors;
-
-  final bool elevator;
-
-  static String id = 'FinalInspectionPage';
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: primaryColor,
         appBar: CustomAppBar(),
-        body: BodyFinalInspectionPage(
+        body: BodyPropertyType(
           fullDescription: fullDescription,
           shortDescription: shortDescription,
           zipCode: zipCode,
@@ -121,9 +111,6 @@ class FinalInspectionPage extends StatelessWidget {
           maintenanceLevel: maintenanceLevel,
           neighborhoodScore: neighborhoodScore,
           exteriorFinish: exteriorFinish,
-          floorNumber: floorNumber,
-          numberOfFloors: numberOfFloors,
-          elevator: elevator,
         ),
       ),
     );

@@ -5,7 +5,7 @@ import 'package:property_inspector/features/property_inspection_feature/data/mod
 import 'package:property_inspector/features/property_inspection_feature/presentation/pages/room_setup_page.dart';
 import 'package:property_inspector/features/property_inspection_feature/presentation/widgets/custom_text_form_field.dart';
 import 'package:property_inspector/features/property_inspection_feature/presentation/widgets/custom_title.dart';
-import 'package:property_inspector/features/property_inspection_feature/presentation/widgets/custom_widget_for_add_near_by.dart';
+import 'package:property_inspector/features/property_inspection_feature/presentation/widgets/outdoor_areas_section.dart';
 import 'package:property_inspector/features/property_inspection_feature/presentation/widgets/secondary_button.dart';
 
 class BodyBasicPropertyInformationPage2 extends StatefulWidget {
@@ -74,7 +74,7 @@ class _BodyBasicPropertyInformationPage2State
               child: Divider(height: 20, thickness: 0.5, color: grayColor),
             ),
 
-            CustomWidetForAddOutDoorPlaces(outDoors: outDoors),
+            OutdoorAreasSection(outDoors: outDoors),
 
             Padding(
               padding: EdgeInsets.symmetric(vertical: width * 0.05),
@@ -109,7 +109,25 @@ class _BodyBasicPropertyInformationPage2State
                     pushing: () {
                       Navigator.push(
                         context,
-                        SlideRight(page: RoomSetupPage()),
+                        SlideRight(
+                          page: RoomSetupPage(
+                            fullDescription: widget.fullDescription,
+                            shortDescription: widget.shortDescription,
+                            zipCode: widget.zipCode,
+                            propertyType: widget.propertyType,
+                            galleryPhoto: widget.galleryPhoto,
+                            askingPrice: widget.askingPrice,
+                            listingType: widget.listingType,
+                            cityName: widget.cityName,
+                            location: widget.location,
+                            lat: widget.lat,
+                            lon: widget.lon,
+                            nearByPlaces: widget.nearByPlaces,
+                            outDoors: outDoors,
+                            sqftArea: sqftArea.text,
+                            constructionYear: constructionYear.text,
+                          ),
+                        ),
                       );
                     },
                     isBack: false,

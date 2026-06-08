@@ -21,17 +21,15 @@ class BasicPropertyInformationPage extends StatelessWidget {
   static String id = 'BasicPropertyInformationPage';
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: primaryColor,
-        appBar: CustomAppBar(),
-        body: BodyBasicPropertyInformationPage(
-          shortDescription: shortDescription,
-          fullDescription: fullDescription,
-          propertyType: propertyType,
-          galleryPhoto: galleryPhoto,
-          zipCode: zipCode,
-        ),
+    return Scaffold(
+      backgroundColor: primaryColor,
+      appBar: CustomAppBar(),
+      body: BodyBasicPropertyInformationPage(
+        shortDescription: shortDescription,
+        fullDescription: fullDescription,
+        propertyType: propertyType,
+        galleryPhoto: galleryPhoto,
+        zipCode: zipCode,
       ),
     );
   }
