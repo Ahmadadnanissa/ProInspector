@@ -3,6 +3,7 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:http/http.dart' as http;
 import 'package:property_inspector/core/app_theme.dart';
+import 'package:property_inspector/core/constans.dart';
 import 'package:property_inspector/features/auth_feature/data/datasources/auth_remote_data_source.dart';
 import 'package:property_inspector/features/auth_feature/domain/repository/auth_repository.dart';
 import 'package:property_inspector/features/auth_feature/domain/usecases/login_use_case.dart';
@@ -50,22 +51,18 @@ void main() async {
   final remoteRD = RequestDetailsRemoteDataSource(http.Client());
   final repoRD = RequestDetailsRepositoryImpl(remoteRD);
   final getRequestDetailsUseCase = GetRequestDetailsUseCase(repoRD);
-  final remoteA = AuthRemoteDataSource(baseUrl: "YOUR_BASE_URL");
+  final remoteA = AuthRemoteDataSource(baseUrl: baseUrl);
   final repoA = AuthRepository(remoteA);
   final loginUseCaseA = LoginUseCase(repoA);
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => RequestProvider(
-            // getReguestsUseCase
-          ),
+          create: (_) => RequestProvider(getReguestsUseCase),
         ),
         ChangeNotifierProvider(create: (_) => NotificationProvider(repoN)),
         ChangeNotifierProvider(
-          create: (_) => RequestDetailsProvider(
-            // getRequestDetailsUseCase
-          ),
+          create: (_) => RequestDetailsProvider(getRequestDetailsUseCase),
         ),
         ChangeNotifierProvider(
           create: (_) => RequestStatsProvider(repo2)..fetchStats(),

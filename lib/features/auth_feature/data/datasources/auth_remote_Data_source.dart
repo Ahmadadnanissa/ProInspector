@@ -20,6 +20,7 @@ class AuthRemoteDataSource {
     final data = jsonDecode(response.body);
 
     if (response.statusCode == 200) {
+      print(data);
       return AuthResponseModel.fromJson(data);
     } else {
       throw Exception(data['message'] ?? 'Login failed');

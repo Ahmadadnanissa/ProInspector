@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:property_inspector/core/constans.dart';
 import 'package:property_inspector/features/home_feature/data/models/request_details_model.dart';
 
 class RequestDetailsRemoteDataSource {
@@ -13,7 +14,7 @@ class RequestDetailsRemoteDataSource {
     required String token,
   }) async {
     final response = await client.get(
-      Uri.parse('your_url/api/v1/requests/$requestId'),
+      Uri.parse('$baseUrl/api/v1/requests/$requestId'),
       headers: {'Authorization': 'Bearer $token'},
     );
 

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:property_inspector/core/constans.dart';
 import '../models/request_model.dart';
 
 class RequestRemoteDataSource {
@@ -12,7 +13,7 @@ class RequestRemoteDataSource {
     required String status,
   }) async {
     final response = await client.get(
-      Uri.parse("YOUR_URL/api/v1/requests/myRequests?status=$status"),
+      Uri.parse("$baseUrl/api/v1/requests/myRequests?status=$status"),
       headers: {
         "Authorization": "Bearer $token",
         "Content-Type": "application/json",

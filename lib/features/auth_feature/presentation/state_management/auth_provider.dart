@@ -16,13 +16,13 @@ class EmployeeAuthProvider extends ChangeNotifier {
       errorMessage = null;
       notifyListeners();
 
-      final response = await loginUseCase(email, password);
+      final response = await loginUseCase.call(email, password);
 
       // 🔐 Save locally
       await EmployeeLocalStorageService.saveToken(response.token);
       await EmployeeLocalStorageService.saveEmployee(
         id: response.employee.id,
-        name: response.employee.name,
+        name: response.profile.name,
         email: response.employee.email,
         photo: response.profile.photo,
       );
@@ -32,10 +32,12 @@ class EmployeeAuthProvider extends ChangeNotifier {
 
       return true;
     } catch (e) {
+      print("LOGIN ERROR = $e");
+
       isLoading = false;
 
-      // 🧠 smart error handling
       errorMessage = _handleError(e.toString());
+
       notifyListeners();
 
       return false;

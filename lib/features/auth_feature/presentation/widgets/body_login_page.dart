@@ -81,10 +81,6 @@ class _BodyLoginPageState extends State<BodyLoginPage> {
                       passwordController.text.trim(),
                     );
 
-                    Navigator.pushReplacement(
-                      context,
-                      SlideRight(page: HomePage()),
-                    );
                     if (success) {
                       emailController.clear();
                       passwordController.clear();

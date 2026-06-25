@@ -1,6 +1,6 @@
 class EmployeeModel {
   final String id;
-  final String name;
+
   final String email;
   final String role;
   final bool isActive;
@@ -8,7 +8,7 @@ class EmployeeModel {
 
   EmployeeModel({
     required this.id,
-    required this.name,
+
     required this.email,
     required this.role,
     required this.isActive,
@@ -18,7 +18,7 @@ class EmployeeModel {
   factory EmployeeModel.fromJson(Map<String, dynamic> json) {
     return EmployeeModel(
       id: json['id'],
-      name: json['name'],
+
       email: json['email'],
       role: json['role'],
       isActive: json['isActive'],
@@ -44,11 +44,11 @@ class EmployeeProfileModel {
 
   factory EmployeeProfileModel.fromJson(Map<String, dynamic> json) {
     return EmployeeProfileModel(
-      id: json['id'],
-      name: json['name'],
-      role: json['role'],
-      fullName: json['fullName'],
-      photo: json['photo'],
+      id: json['employee']['id'],
+      name: json['employee']['name'],
+      role: json['employee']['role'],
+      fullName: json['employee']['fullName'],
+      photo: json['employee']['photo'],
     );
   }
 }
@@ -71,7 +71,7 @@ class AuthResponseModel {
       status: json['status'],
       token: json['token'],
       employee: EmployeeModel.fromJson(json['data']),
-      profile: EmployeeProfileModel.fromJson(json['data']['employee']),
+      profile: EmployeeProfileModel.fromJson(json['data']),
     );
   }
 }
